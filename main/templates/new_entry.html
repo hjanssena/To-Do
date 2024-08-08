@@ -1,0 +1,8 @@
+<form action="" method="post">
+    {% csrf_token %}
+    <ul>
+        {{ form }}
+        <input type="date" name="deadline">
+    </ul>
+    <button type="submit">Add</button>
+</form>
