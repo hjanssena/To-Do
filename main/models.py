@@ -5,6 +5,9 @@ class tag(models.Model):
     name = models.CharField(max_length=50)
     color = models.IntegerField()
 
+    def __str__(self):
+        return u'{0}'.format(self.name)
+
 class entry(models.Model):
     content = models.TextField(max_length=500, default="New entry")
     entry_time = models.DateTimeField(default=datetime.datetime.now)
@@ -13,4 +16,5 @@ class entry(models.Model):
     tag = models.ForeignKey(tag, on_delete=models.SET_NULL, null=True)
     status = models.BooleanField(default=False)
 
-# Create your models here.
+    def __str__(self):
+        return self.content

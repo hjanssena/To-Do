@@ -2,7 +2,7 @@ import datetime
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from .forms import NewEntryForm
-from .models import entry
+from .models import entry, tag
 
 def new_entry(request):
     if request.method == "POST":
@@ -14,7 +14,7 @@ def new_entry(request):
                 priority = request.POST['priority'],
              )
             if request.POST['tag'] != '':
-                n.tag = request.POST['tag']            
+                n.tag = tag.objects.get(pk=request.POST['tag'])            
             n.save()
             #return HttpResponseRedirect("/ok/")
     else:
