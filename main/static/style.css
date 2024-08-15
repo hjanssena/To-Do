@@ -2,3 +2,15 @@ p {
     background-color: green;
     font-weight: bolder;
 }
+
+.task_display {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.task_entry {
+    display: inline;
+    width: 9.5em;
+    margin: .35em;
+    padding: .25em;
+}

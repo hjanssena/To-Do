@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="task_display">
+    {% for task in task_list %}
+    <div class="task_entry">
+        <span>{{task.content}}</span> <br>
+        <span>{{task.deadline}}</span> <br>
+        <span>{{task.tag}}</span>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -3,7 +3,7 @@ import datetime
 
 class tag(models.Model):
     name = models.CharField(max_length=50)
-    color = models.IntegerField()
+    color = models.CharField(max_length=7)
 
     def __str__(self):
         return u'{0}'.format(self.name)
