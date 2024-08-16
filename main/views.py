@@ -29,23 +29,55 @@ def new_entry(request):
             if request.POST['tag'] != '':
                 n.tag = tag.objects.get(pk=request.POST['tag'])            
             n.save()
-            #return HttpResponseRedirect("/ok/")
+            return HttpResponseRedirect("/main/")
     else:
         form = NewEntryForm()
     return render(request, "new_entry.html", {"form": form})
 
 def active_task_view(request):
+    tag_id = 0
+    if request.method == "POST":
+        if request.POST.__contains__("id"):
+            done_entry = entry.objects.get(id = request.POST["id"])
+            done_entry.status = True
+            done_entry.save()
+        elif request.POST.__contains__("tag"):
+            tag_id = int(request.POST["tag"])
     active_tasks = []
+    task_color = []
     for task in entry.objects.all():
         if task.status == False:
-            active_tasks.append(task)
-    task_list = {"task_list": active_tasks}
-    return render(request, "list_tasks.html", task_list)
+            if tag_id == 0 or task.tag_id == tag_id:
+                active_tasks.append(task)
+                if task.tag_id != None:
+                    current_tag = tag.objects.get(id = task.tag_id)
+                    task_color.append(current_tag.color)
+                else:
+                    task_color.append("#FFFFFF")
+    task_list = zip(active_tasks, task_color)
+    context = {"task_list": task_list, "tag_list": tag.objects.all()}
+    return render(request, "list_tasks.html", context)
 
 def done_task_view(request):
+    tag_id = 0
+    if request.method == "POST":
+        if request.POST.__contains__("id"):
+           done_entry = entry.objects.get(id = request.POST["id"])
+           done_entry.status = False
+           done_entry.save()
+        elif request.POST.__contains__("tag"):
+            tag_id = int(request.POST["tag"])
     done_tasks = []
+    task_color = []
     for task in entry.objects.all():
         if task.status == True:
-            done_tasks.append(task)
-    task_list = {"task_list": done_tasks}
-    return render(request, "list_tasks.html", task_list)
+            if tag_id == 0 or task.tag_id == tag_id:
+                done_tasks.append(task)
+                if task.tag_id != None:
+                    current_tag = tag.objects.get(id = task.tag_id)
+                    task_color.append(current_tag.color)
+                else:
+                    task_color.append("#FFFFFF")
+    task_list = zip(done_tasks, task_color)
+    context = {"task_list": task_list, "tag_list": tag.objects.all()}
+    return render(request, "list_tasks.html", context)

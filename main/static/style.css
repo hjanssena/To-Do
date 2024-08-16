@@ -1,6 +1,11 @@
-p {
-    background-color: green;
-    font-weight: bolder;
+header {
+    background-color: #03045e;
+    color: white;
+}
+
+h1 {
+    background-color: #03045e;
+    color: white;
 }
 
 .task_display {
