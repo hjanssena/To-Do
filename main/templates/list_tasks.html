@@ -1,27 +1,31 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="tag_display">
-    <form action="" method="post">
-        {% csrf_token %}
-        <button name="tag" value=0>All</button>
-        {% for tag in tag_list %}
-        <button name="tag" value="{{tag.id}}">{{tag.name}}</button>
-        {% endfor %}
-    </form>
-</div>
-<div class=" task_display">
-
-    {% for task in task_list %}
-    <div class="task_entry" style="background-color: {{ task.1 }}">
-        <span>{{task.0.content}}</span> <br>
-        <span>{{task.0.deadline}}</span> <br>
-        <span>{{task.0.tag}}</span> <br>
-        <form action="" method="post">
-            {% csrf_token %}
-            <button name="id" value="{{task.0.id}}">Done</button>
-        </form>
+<div class="container">
+    <div class="row">
+        <div class="col-2 bg-primary-subtle">
+            <form action="" method="post" class="d-grid gap-2 col-8 mx-auto">
+                {% csrf_token %}
+                <button name="tag" value=0 class="btn btn-primary">All</button>
+                {% for tag in tag_list %}
+                <button name="tag" value="{{tag.id}}" class="btn btn-primary"
+                    style="background-color: {{ tag.color }}; border-color: white">{{tag.name}}</button>
+                {% endfor %}
+            </form>
+        </div>
+        <div class="task_display col-10 container">
+            {% for task in task_list %}
+            <div class="task_entry" style="background-color: {{ task.1 }}">
+                <span>{{task.0.content}}</span> <br>
+                <span>{{task.0.deadline}}</span> <br>
+                <span>{{task.0.tag}}</span> <br>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <button name="id" value="{{task.0.id}}" class="btn btn-outline-dark">Done</button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
     </div>
-    {% endfor %}
 </div>
 {% endblock %}

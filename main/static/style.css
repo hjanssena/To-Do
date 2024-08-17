@@ -3,9 +3,13 @@ header {
     color: white;
 }
 
-h1 {
+.head_title {
     background-color: #03045e;
     color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
 }
 
 .task_display {
@@ -15,7 +19,37 @@ h1 {
 
 .task_entry {
     display: inline;
-    width: 9.5em;
-    margin: .35em;
-    padding: .25em;
+    border-radius: 10%;
+    min-width: 45%;
+    margin: .5em;
+    padding: .5em;
+}
+
+.nav_bar {
+    min-width: 95%;
+    height: 100%;
+}
+
+.nav_button {
+    font-size: large;
+    font-weight: 500;
+    background-color: #03045e;
+    border-color: #03045e;
+    transition: 250ms;
+}
+
+.nav_button>span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.nav_button:hover {
+    background-color: #0077B6;
+    border-color: #03045e;
+}
+
+.nav_button:active {
+    background-color: #0099B6;
 }
