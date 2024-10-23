@@ -1,8 +1,11 @@
 import datetime
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from .forms import NewEntryForm, NewTag
 from .models import entry, tag
+
+def main_page(request):
+    return redirect("/main/")
 
 def new_tag(request):
     if request.method == "POST":
@@ -53,9 +56,9 @@ def active_task_view(request):
                     current_tag = tag.objects.get(id = task.tag_id)
                     task_color.append(current_tag.color)
                 else:
-                    task_color.append("#FFFFFF")
+                    task_color.append("#282828")
     task_list = zip(active_tasks, task_color)
-    context = {"task_list": task_list, "tag_list": tag.objects.all()}
+    context = {"task_list": task_list, "tag_list": tag.objects.all(), "title": "Pending Tasks"}
     return render(request, "list_tasks.html", context)
 
 def done_task_view(request):
@@ -77,7 +80,7 @@ def done_task_view(request):
                     current_tag = tag.objects.get(id = task.tag_id)
                     task_color.append(current_tag.color)
                 else:
-                    task_color.append("#FFFFFF")
+                    task_color.append("#282828")
     task_list = zip(done_tasks, task_color)
-    context = {"task_list": task_list, "tag_list": tag.objects.all()}
+    context = {"task_list": task_list, "tag_list": tag.objects.all(), "title": "Done Tasks"}
     return render(request, "list_tasks.html", context)

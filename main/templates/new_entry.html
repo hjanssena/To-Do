@@ -5,7 +5,8 @@
     {% csrf_token %}
     <ul>
         {{ form }}
-        <input type="date" name="deadline">
+        <label for="deadline">Deadline: </label>
+        <input type="date" id="deadline" name="deadline">
     </ul>
     <button type="submit">Add</button>
 </form>
