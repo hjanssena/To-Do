@@ -21,5 +21,6 @@ from main import views as mainViews
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('main/', include("main.urls")),
+    path('login/', include("users.urls")),
     path('', mainViews.main_page),
 ]
