@@ -1,12 +1,19 @@
-{% extends "base.html" %}
+<form action="/main/newtag/" method="post">
+    <h3>New tag</h3>
 
-{% block content %}
-<form action="" method="post">
     {% csrf_token %}
-    <ul>
-        {{ form }}
-        <input type="color" name="color">
+    <ul class="container">
+        <div class="mb-3 row">
+            <label for="tagName" class="form-label">Tag name: </label>
+            <input type="text" name="tagName" id="tagName" class="form-control">
+        </div>
+        <div class="mb-3 row">
+            <label for="nColor" class="form-label">Color: </label>
+            <input type="color" name="nColor" id="nColor" class="form-control">
+        </div>
     </ul>
-    <button type="submit">Add</button>
+    <div class="d-grid gap-2">
+        <button type="submit" class="btn btn-primary">Add</button>
+    </div>
+
 </form>
-{% endblock %}

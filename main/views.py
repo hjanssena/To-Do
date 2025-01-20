@@ -9,33 +9,26 @@ def main_page(request):
 
 def new_tag(request):
     if request.method == "POST":
-        form = NewTag(request.POST)
-        if form.is_valid():
-            n = tag.objects.create(
-                name = request.POST['name'],
-                color = request.POST['color'],
-            )
-            n.save()
-    else:
-        form = NewTag()
-    return render(request, "new_tag.html", {"form": form})
+        n = tag.objects.create(
+            name = request.POST['tagName'],
+            color = request.POST['nColor'],
+        )
+        n.save()
+        return HttpResponseRedirect("/main/")
+    return HttpResponseRedirect("/main/")
 
 def new_entry(request):
     if request.method == "POST":
-        form = NewEntryForm(request.POST)
-        if form.is_valid():
-            n = entry.objects.create(
-                content = request.POST['content'],
-                deadline = request.POST['deadline'],
-                priority = request.POST['priority'],
-             )
-            if request.POST['tag'] != '':
-                n.tag = tag.objects.get(pk=request.POST['tag'])            
-            n.save()
-            return HttpResponseRedirect("/main/")
-    else:
-        form = NewEntryForm()
-    return render(request, "new_entry.html", {"form": form})
+        n = entry.objects.create(
+            content = request.POST['content'],
+            deadline = request.POST['deadline'],
+            priority = 1,
+            )
+        if request.POST['aTag'] != '':
+            n.tag = tag.objects.get(pk=request.POST['aTag'])            
+        n.save()
+        return HttpResponseRedirect("/main/")
+    return HttpResponseRedirect("/main/")
 
 def active_task_view(request):
     tag_id = 0

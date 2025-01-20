@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    <header>
+    <header class="sticky-top">
         <div class="container">
             <div class="row">
                 <div class="col-md-4 col-lg-3">{% include "partials/header.html" %}</div>
@@ -20,9 +20,16 @@
             </div>
         </div>
     </header>
+
+    <div class="prompter z-3 position-fixed">
+        <div class="prompt rounded-3">{% include "new_entry.html" %}</div>
+        <div class="prompt rounded-3" hidden>{% include "new_tag.html" %}</div>
+    </div>
+
     <main>
         {% block content %}{% endblock %}
     </main>
+
     <footer class="container">{% include "partials/footer.html" %}</footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
