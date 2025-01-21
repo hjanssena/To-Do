@@ -1,5 +1,5 @@
 <form action="/main/newentry/" method="post">
-    <button type="button" class="btn-close float-end" data-bs-theme="dark" aria-label="Close"></button>
+    <button type="button" class="btn-close float-end" data-bs-theme="dark" aria-label="Close" id="closePrompt"></button>
     <section>
         <h3>New task</h3>
         {% csrf_token %}
@@ -25,5 +25,5 @@
             <button type="submit" class="btn btn-primary">Add</button>
         </div>
     </section>
-    
+
 </form>
