@@ -1,19 +1,20 @@
 <form action="/main/newtag/" method="post">
-    <h3>New tag</h3>
-
-    {% csrf_token %}
-    <ul class="container">
-        <div class="mb-3 row">
-            <label for="tagName" class="form-label">Tag name: </label>
-            <input type="text" name="tagName" id="tagName" class="form-control">
+    <button type="button" class="btn-close float-end" data-bs-theme="dark" aria-label="Close"></button>
+    <section>
+        <h3>New tag</h3>
+        {% csrf_token %}
+        <ul class="container">
+            <div class="mb-3 row">
+                <label for="tagName" class="form-label">Tag name: </label>
+                <input type="text" name="tagName" id="tagName" class="form-control">
+            </div>
+            <div class="mb-3 row">
+                <label for="nColor" class="form-label">Color: </label>
+                <input type="color" name="nColor" id="nColor" class="form-control">
+            </div>
+        </ul>
+        <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary">Add</button>
         </div>
-        <div class="mb-3 row">
-            <label for="nColor" class="form-label">Color: </label>
-            <input type="color" name="nColor" id="nColor" class="form-control">
-        </div>
-    </ul>
-    <div class="d-grid gap-2">
-        <button type="submit" class="btn btn-primary">Add</button>
-    </div>
-
+    </section>
 </form>

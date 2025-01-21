@@ -41,7 +41,10 @@ header {
 
 .prompt {
     background-color: #282828;
-    padding: 1.5em;
+    padding: .5em;
+}
+.prompt section{
+    padding: 1em;
 }
 
 .prompt h3 {

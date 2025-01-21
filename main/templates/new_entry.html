@@ -1,25 +1,29 @@
 <form action="/main/newentry/" method="post">
-    <h3>New task</h3>
-    {% csrf_token %}
-    <ul class="container">
-        <div class="mb-3 row">
-            <label for="content" class="form-label">Content: </label>
-            <input type="text" id="content" name="content" class="form-control">
+    <button type="button" class="btn-close float-end" data-bs-theme="dark" aria-label="Close"></button>
+    <section>
+        <h3>New task</h3>
+        {% csrf_token %}
+        <ul class="container">
+            <div class="mb-3 row">
+                <label for="content" class="form-label">Content: </label>
+                <input type="text" id="content" name="content" class="form-control">
+            </div>
+            <div class="mb-3 row">
+                <label for="tag" class="form-label">Tag: </label>
+                <select name="aTag" id="aTag" class="form-select">
+                    {% for tag in tag_list %}
+                    <option value="{{tag.id}}">{{tag.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3 row" class="form-label">
+                <label for="deadline">Deadline: </label>
+                <input type="date" id="deadline" name="deadline" class="form-control">
+            </div>
+        </ul>
+        <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary">Add</button>
         </div>
-        <div class="mb-3 row">
-            <label for="tag" class="form-label">Tag: </label>
-            <select name="aTag" id="aTag" class="form-select">
-                {% for tag in tag_list %}
-                <option value="{{tag.id}}">{{tag.name}}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="mb-3 row" class="form-label">
-            <label for="deadline">Deadline: </label>
-            <input type="date" id="deadline" name="deadline" class="form-control">
-        </div>
-    </ul>
-    <div class="d-grid gap-2">
-        <button type="submit" class="btn btn-primary">Add</button>
-    </div>
+    </section>
+    
 </form>
