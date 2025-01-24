@@ -1,8 +1,8 @@
 {% extends "login_base.html" %}
 
 {% block content %}
-<h1>Register a New User</h1>
-<form class="form-with-validation" action="/login/register/" method="post">
+<h1>Login</h1>
+<form class="form-with-validation" action="/login/" method="post">
     {% csrf_token %}
     {{ form }}
     <button class="form-submit">Submit</button>
