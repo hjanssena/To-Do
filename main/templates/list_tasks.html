@@ -20,7 +20,6 @@
                 <div class="task_entry col-10 col-lg-5" style="border-color: {{ task.1 }}">
                     <span>{{task.0.content}}</span> <br>
                     <span>{{task.0.deadline}}</span> <br>
-                    <span>{{task.0.tag}}</span> <br>
                     <form action="" method="post">
                         {% csrf_token %}
                         <button name="id" value="{{task.0.id}}" class="btn btn-outline-light">Done</button>
@@ -32,3 +31,4 @@
     </div>
 </div>
 {% endblock %}
+

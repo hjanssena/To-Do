@@ -1,7 +1,5 @@
-import datetime
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, HttpResponse, Http404
-from .forms import NewEntryForm, NewTag
 from .models import entry, tag
 
 def main_page(request):
@@ -13,9 +11,9 @@ def new_tag(request):
             n = tag.objects.create(
                 name = request.POST['tagName'],
                 color = request.POST['nColor'],
+                uid = request.user,
             )
             n.save()
-            return HttpResponseRedirect("/main/")
         return HttpResponseRedirect("/main/")
     else:
         return HttpResponseRedirect("/login/")
@@ -26,12 +24,11 @@ def new_entry(request):
             n = entry.objects.create(
                 content = request.POST['content'],
                 deadline = request.POST['deadline'],
-                priority = 1,
+                uid = request.user,
                 )
             if request.POST['aTag'] != '':
                 n.tag = tag.objects.get(pk=request.POST['aTag'])            
             n.save()
-            return HttpResponseRedirect("/main/")
         return HttpResponseRedirect("/main/")
     else:
         return HttpResponseRedirect("/login/")
@@ -48,7 +45,7 @@ def active_task_view(request):
                 tag_id = int(request.POST["tag"])
         active_tasks = []
         task_color = []
-        for task in entry.objects.all():
+        for task in entry.objects.filter(uid = request.user):
             if task.status == False:
                 if tag_id == 0 or task.tag_id == tag_id:
                     active_tasks.append(task)
@@ -58,7 +55,8 @@ def active_task_view(request):
                     else:
                         task_color.append("#282828")
         task_list = zip(active_tasks, task_color)
-        context = {"task_list": task_list, "tag_list": tag.objects.all(), "title": "Pending Tasks", "user": request.user}
+        tag_list = []
+        context = {"task_list": task_list, "tag_list": tag.objects.filter(uid = request.user), "title": "Pending Tasks", "user": request.user}
         return render(request, "list_tasks.html", context)
     else:
         return HttpResponseRedirect("/login/")
@@ -75,8 +73,8 @@ def done_task_view(request):
                 tag_id = int(request.POST["tag"])
         done_tasks = []
         task_color = []
-        for task in entry.objects.all():
-            if task.status == True:
+        for task in entry.objects.filter(uid = request.user):
+            if task.status == True and task.uid == request.user:
                 if tag_id == 0 or task.tag_id == tag_id:
                     done_tasks.append(task)
                     if task.tag_id != None:
@@ -85,7 +83,11 @@ def done_task_view(request):
                     else:
                         task_color.append("#282828")
         task_list = zip(done_tasks, task_color)
-        context = {"task_list": task_list, "tag_list": tag.objects.all(), "title": "Done Tasks"}
+        tag_list = []
+        for current_tag in tag.objects.all():
+            if current_tag.uid == request.user:
+                tag_list.append(current_tag)
+        context = {"task_list": task_list, "tag_list": tag.objects.filter(uid = request.user), "title": "Done Tasks"}
         return render(request, "list_tasks.html", context)
     else:
         return HttpResponseRedirect("/login/")
