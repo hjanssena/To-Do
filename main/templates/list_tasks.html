@@ -5,19 +5,24 @@
 <div class="container">
     <div class="row">
         <div class="col-3 col-sm-3 col-md-2 col-lg-2">
-            <form action="" method="post" class="tag_drawer">
-                {% csrf_token %}
-                <button name="tag" value=0 class="btn btn-primary tag_button">All</button>
+            <div class="tag_drawer">
+                <h4>Order by:</h4>
+                <button class="btn btn-primary tag_button" id="deadlineFilter">Deadline</button>
+                <button class="btn btn-primary tag_button" id="dateFilter">Creation Date</button>
+            </div>
+            <div class="tag_drawer">
+                <h4>Filter by tag:</h4>
+                <button name="tag" data-id="0" value=0 class="btn btn-primary tag_button" id="tag_btn">All</button>
                 {% for tag in tag_list %}
-                <button name="tag" value="{{tag.id}}" class="btn btn-primary tag_button"
+                <button name="tag" data-id="{{tag.id}}" class="btn btn-primary tag_button"  id="tag_btn"
                     style="background-color: {{ tag.color }}; border-color: {{ tag.color }}">{{tag.name}}</button>
                 {% endfor %}
-            </form>
+            </div>
         </div>
         <div class="task_display col-9 col-sm-9 col-md-10 col-lg-10 container">
-            <div class="row">
+            <div class="row" id="task_container">
                 {% for task in task_list %}
-                <div class="task_entry col-10 col-lg-5" style="border-color: {{ task.1 }}">
+                <div class="task_entry col-10 col-lg-5" style="border-color: {{ task.1 }}" data-deadline="{{task.0.deadline}}" data-creation="{{task.0.entry_time.date}}" data-tag="{{task.0.tag_id}}">
                     <span>{{task.0.content}}</span> <br>
                     <span>{{task.0.deadline}}</span> <br>
                     <form action="" method="post">
@@ -31,4 +36,3 @@
     </div>
 </div>
 {% endblock %}
-

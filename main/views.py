@@ -35,27 +35,24 @@ def new_entry(request):
 
 def active_task_view(request):
     if request.user.is_authenticated:
-        tag_id = 0
+        #Process user setting a task as done
         if request.method == "POST":
             if request.POST.__contains__("id"):
                 done_entry = entry.objects.get(id = request.POST["id"])
                 done_entry.status = True
                 done_entry.save()
-            elif request.POST.__contains__("tag"):
-                tag_id = int(request.POST["tag"])
+        #Get the user's tasks and assign them their tag color.
         active_tasks = []
         task_color = []
-        for task in entry.objects.filter(uid = request.user):
+        for task in entry.objects.filter(uid = request.user).order_by("deadline"):
             if task.status == False:
-                if tag_id == 0 or task.tag_id == tag_id:
-                    active_tasks.append(task)
-                    if task.tag_id != None:
-                        current_tag = tag.objects.get(id = task.tag_id)
-                        task_color.append(current_tag.color)
-                    else:
-                        task_color.append("#282828")
-        task_list = zip(active_tasks, task_color)
-        tag_list = []
+                active_tasks.append(task)
+                if task.tag_id != None: #If no tag is assigned, then assign a default color
+                    current_tag = tag.objects.get(id = task.tag_id)
+                    task_color.append(current_tag.color)
+                else:
+                    task_color.append("#282828")
+        task_list = zip(active_tasks, task_color) #We zip the lists to iterate them at the same time on the template
         context = {"task_list": task_list, "tag_list": tag.objects.filter(uid = request.user), "title": "Pending Tasks", "user": request.user}
         return render(request, "list_tasks.html", context)
     else:
@@ -63,31 +60,25 @@ def active_task_view(request):
 
 def done_task_view(request):
     if request.user.is_authenticated:
-        tag_id = 0
+        #Process user setting a task as done
         if request.method == "POST":
             if request.POST.__contains__("id"):
-               done_entry = entry.objects.get(id = request.POST["id"])
-               done_entry.status = False
-               done_entry.save()
-            elif request.POST.__contains__("tag"):
-                tag_id = int(request.POST["tag"])
-        done_tasks = []
+                done_entry = entry.objects.get(id = request.POST["id"])
+                done_entry.status = True
+                done_entry.save()
+        #Get the user's tasks and assign them their tag color.
+        active_tasks = []
         task_color = []
-        for task in entry.objects.filter(uid = request.user):
-            if task.status == True and task.uid == request.user:
-                if tag_id == 0 or task.tag_id == tag_id:
-                    done_tasks.append(task)
-                    if task.tag_id != None:
-                        current_tag = tag.objects.get(id = task.tag_id)
-                        task_color.append(current_tag.color)
-                    else:
-                        task_color.append("#282828")
-        task_list = zip(done_tasks, task_color)
-        tag_list = []
-        for current_tag in tag.objects.all():
-            if current_tag.uid == request.user:
-                tag_list.append(current_tag)
-        context = {"task_list": task_list, "tag_list": tag.objects.filter(uid = request.user), "title": "Done Tasks"}
+        for task in entry.objects.filter(uid = request.user).order_by("deadline"):
+            if task.status == True:
+                active_tasks.append(task)
+                if task.tag_id != None: #If no tag is assigned, then assign a default color
+                    current_tag = tag.objects.get(id = task.tag_id)
+                    task_color.append(current_tag.color)
+                else:
+                    task_color.append("#282828")
+        task_list = zip(active_tasks, task_color) #We zip the lists to iterate them at the same time on the template
+        context = {"task_list": task_list, "tag_list": tag.objects.filter(uid = request.user), "title": "Finished Tasks", "user": request.user}
         return render(request, "list_tasks.html", context)
     else:
         return HttpResponseRedirect("/login/")
