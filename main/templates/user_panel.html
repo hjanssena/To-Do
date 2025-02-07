@@ -1,18 +1,33 @@
 <div>
     <button type="button" class="btn-close float-end" data-bs-theme="dark" aria-label="Close" id="closePrompt"></button>
-    <div>
-        <h3>Username: {{ user.username }}</h3>
+    <section>
+        <h3>{{ user.username }}</h3>
         <form action="/login/change_password/" method="post">
             {% csrf_token %}
-            <label for="password" class="form-label">Current password: </label>
-            <input type="text" name="password" class="form-control" placeholder="Password">
-            <label for="new_password" class="form-label">New password:</label>
-            <input type="text" name="new_password" class="form-control" placeholder="Password">
-            <label for="confirm_password" class="form-label">Confirm password:</label>
-            <input type="text" name="confirm_password" class="form-control" placeholder="Password">
-            <span id="password_change_message"></span>
-            <button class="btn btn-primary">Change password</button>
+            <div class="mb-3 row">
+                <label for="password" class="form-label">Current password: </label>
+                <input type="text" name="password" class="form-control" placeholder="Password">
+            </div>
+            <div class="mb-3 row">
+                <label for="new_password" class="form-label">New password:</label>
+                <input type="password" name="new_password" class="form-control" placeholder="Password">
+            </div>
+            <div class="mb-3 row">
+                <label for="confirm_password" class="form-label">Confirm password:</label>
+                <input type="password" name="confirm_password" class="form-control" placeholder="Password">
+            </div>
+            <span id="error_message">
+                {% if messages %}
+                {% for message in messages %}
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                {{ message }}
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+            </span>
+            <div class="d-grid gap-2">
+                <button class="btn btn-primary">Change password</button>
+            </div>
         </form>
-    </div>
+    </section>
 </div>
-

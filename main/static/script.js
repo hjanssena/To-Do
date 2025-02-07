@@ -9,11 +9,29 @@ const userPanelBtn = document.querySelector('#user_panel_btn')
 const closePromptBtn = document.querySelectorAll('#closePrompt');
 
 //All attributes are strings
-function prompt(newTag, newEntry, usrPanel, prompter){
-    newTagForm.style.display = newTag;
-    newEntryForm.style.display = newEntry;
-    userPanel.style.display = usrPanel;
-    prompterBg.style.display = prompter;
+function prompt(newTag, newEntry, usrPanel, prompter) {
+    requestAnimationFrame(() => {
+        if (prompter == 'flex') {
+            newTagForm.style.display = newTag;
+            newEntryForm.style.display = newEntry;
+            userPanel.style.display = usrPanel;
+            prompterBg.style.display = prompter;
+            setTimeout(() => {
+                prompterBg.style.transition = "opacity 0.25s";
+                prompterBg.style.opacity = 1;
+            }, 15)
+        }
+        else {
+            prompterBg.style.transition = "opacity 0.25s";
+            prompterBg.style.opacity = 0;
+            setTimeout(() => {
+                newTagForm.style.display = newTag;
+                newEntryForm.style.display = newEntry;
+                userPanel.style.display = usrPanel;
+                prompterBg.style.display = prompter;
+            }, 260)
+        }
+    });
 }
 
 newEntryBtn.addEventListener('click', () => {
@@ -30,7 +48,7 @@ userPanelBtn.addEventListener('click', () => {
 
 for (let btn of closePromptBtn) {
     btn.addEventListener('click', () => {
-    prompt('none', 'none', 'none', 'none');
+        prompt('none', 'none', 'none', 'none');
     });
 }
 
@@ -39,7 +57,7 @@ for (let btn of closePromptBtn) {
 //Wrong password toast************************************************
 const alertToast = document.querySelector('#liveToast')
 const toastContent = document.querySelector('#toastContent')
-if (alertToast.textContent.trim() == 'Wrong password, please verify.'){
+if (alertToast.textContent.trim() == 'Wrong password, please verify.') {
     const toastBootstrap = bootstrap.Toast.getOrCreateInstance(alertToast)
     toastBootstrap.show();
     prompt('none', 'none', 'block', 'flex');
@@ -53,27 +71,27 @@ let tag_id = 0;
 let sort_data;
 const tasksArray = Array.from(document.querySelectorAll(".task_entry"))
 
-function sortFilterTasks(){
+function sortFilterTasks() {
     // Store initial positions before filtering
     const positions = new Map();
     tasksArray.forEach(task => {
         const rect = task.getBoundingClientRect();
-        positions.set(task, {left: rect.left, top: rect.top});
+        positions.set(task, { left: rect.left, top: rect.top });
     });
 
     // Separate visible and hidden items
     const visibleTasks = [];
     const hiddenTasks = [];
-  
+
     tasksArray.forEach(task => {
-        if (task.getAttribute('data-tag') == tag_id || tag_id == 0){
+        if (task.getAttribute('data-tag') == tag_id || tag_id == 0) {
             visibleTasks.push(task);
         }
-        else{
+        else {
             hiddenTasks.push(task);
         }
     });
-    
+
     visibleTasks.sort((a, b) => {
         const dateA = Date.parse(a.getAttribute(sort_data));
         const dateB = Date.parse(b.getAttribute(sort_data));
@@ -87,31 +105,31 @@ function sortFilterTasks(){
         requestAnimationFrame(() => {
             task.style.transition = "opacity 0.2s";
             task.style.opacity = visibleTasks.includes(task) ? "1" : "0";
-          });
+        });
     });
-    
+
     //Change positions in DOM
     setTimeout(() => {
         visibleTasks.forEach(task => taskContainer.appendChild(task));
         hiddenTasks.forEach(task => taskContainer.appendChild(task));
-    },200);
+    }, 200);
 
     //Animate movement
     tasksArray.forEach(task => {
         setTimeout(() => {
             const rect = task.getBoundingClientRect()
             const oldPos = positions.get(task);
-        
+
             const deltaX = oldPos.left - rect.left;
             const deltaY = oldPos.top - rect.top;
             task.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
 
             requestAnimationFrame(() => {
                 task.style.transition = "transform 0.4s ease";
-                task.style.transform = "translate(0, 0)";  
+                task.style.transform = "translate(0, 0)";
             });
             visibleTasks.includes(task) ? task.setAttribute('pointer-events', 'all') : null; //Unlock interactions with only visible tasks
-        },200);
+        }, 200);
     });
 }
 
@@ -130,7 +148,7 @@ dateBtn.addEventListener('click', () => {
 
 const allTags = document.querySelectorAll('#tag_btn')
 
-for (let tag_btn of allTags){
+for (let tag_btn of allTags) {
     tag_btn.addEventListener('click', () => {
         tag_id = tag_btn.getAttribute('data-id');
         sortFilterTasks();

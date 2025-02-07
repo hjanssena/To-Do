@@ -37,6 +37,7 @@ header {
     align-items: center;
     justify-content: center;
     background-color: rgba(0, 0, 0, 0.651);
+    transition: opacity .5s
 }
 
 .prompt {
@@ -51,6 +52,11 @@ header {
 
 .prompt h3 {
     text-align: center;
+}
+
+#error_message {
+    color: red;
+    padding: .5em;
 }
 
 /*.task_display {

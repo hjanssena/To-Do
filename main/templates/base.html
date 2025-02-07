@@ -38,7 +38,9 @@
                 <div class="toast-body" id="toastContent">
                     {% if messages %}
                     {% for message in messages %}
+                    {% if message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
                     {{ message }}
+                    {% endif %}
                     {% endfor %}
                     {% endif %}
                 </div>

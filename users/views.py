@@ -39,6 +39,7 @@ def changePasswordView(request):
                 usr.set_password(request.POST["new_password"])
                 usr.save()
             else:
+                messages.add_message(request, messages.WARNING, 'Wrong password, please verify.')
                 messages.add_message(request, messages.ERROR, 'Wrong password, please verify.')
                 return redirect("/main/")
     logout(request)
